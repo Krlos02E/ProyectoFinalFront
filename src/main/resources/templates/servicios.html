@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+
+    <head>
+
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <meta name="description" content=""/>
+        <meta name="author" content=""/>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900"
+              rel="stylesheet"/>
+
+        <title>Servicios Ofrecidos</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" />
+
+        <!-- Additional CSS Files -->
+        <link rel="stylesheet" href="css/templatemo-grad-school.css"/>
+
+        <style>
+            body{
+                background-image: url("images/choosing-bg.jpg");
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+            
+            input{
+                margin-top: 10px;
+                align-self: center;
+            }
+
+            h1{
+                text-align: center;
+            }
+
+            footer{
+                margin-top: auto;
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+
+        <header class="main-header clearfix">
+            <div class="logo">
+                <a href="#"><em>Grad</em> School</a>
+            </div>
+            <a href="#" class="menu-link"><i class="fa fa-bars"></i></a>
+            <nav id="menu" class="main-nav" role="navigation">
+                <ul class="main-menu">
+                    <li><a href="/home">Home</a></li>
+                    <li><a href="/listaAuditorias">Auditoria</a></li>
+                    <li><a href="https://templatemo.com" class="external">External</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <h1 style="color: white; margin-top: 80px">Tus Reservas de Servicios</h1>
+
+        <div class="table-responsive" th:object="${listaServicios}">
+            <table class="table table-light table-striped table-hover"
+                   style="width: 50%; margin-left: 25%;">
+                <thead>
+                    <tr class="success">
+                        <th>Fecha</th>
+                        <th>Nombre</th>
+                        <th>Total de Alumnos</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="reserva : ${listaReservas}">
+                        <td th:text="${reserva.fechaServicio}"></td>
+                        <td th:text="${listaServicios[reserva.idServicio - 1].nombreServicio}"></td>
+                        <td th:text="${reserva.totalAlumnos}"></td>
+                        <td>
+                            <a th:href="@{/reservaEliminar(codigo=${reserva.idReserva}, idxServicio=${reserva.idServicio})}"
+                               th:text="|SI|"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h1 style="color: white">Datos del Servicio a Reservar</h1>
+        <form action="#" th:action="@{/reservaGrabar}" method="post"
+              th:object="${reservaBean}">
+            <div class="form-group" style="width: 40%; margin-left: 30%">
+                <select name="servicioNombre" class="form-control text-box" required=""
+                        th:field="*{idServicio}" >
+                    <option value="" disabled="" selected="">Elige Servicio</option>
+                    <option th:each="servicio : ${listaServicios}" 
+                            th:value="${servicio.idServicio}" 
+                            th:text="${servicio.nombreServicio}"></option>
+                </select>
+            </div>
+            <div class="form-group" style="width: 40%; margin-left: 30%">
+                <input type="date" th:field="*{fechaServicio}" class="form-control text-box" 
+                       name="fecha" id="fecha"/>
+            </div>
+
+            <div class="form-group" style="width: 40%; margin-left: 30%">
+                <input type="number" name="totalAlumnos" class="form-control text-box" 
+                       placeholder="Cantidad de Alumnso para Servicio"
+                       step="1" max="12" required=""
+                       th:field="*{totalAlumnos}"/>
+            </div>
+            <input type="submit" value="Grabar" class="btn btn-primary button-submit"
+                   style="width: 10%; margin-left: 45%"/>
+        </form>
+
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p><i class="fa fa-copyright"></i> Copyright 2020 by Grad School | Design: 
+                            <a href="https://templatemo.com" rel="sponsored" target="_parent">TemplateMo</a></p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var rows = document.querySelectorAll("tbody tr");
+                var currentDate = new Date();
+
+                rows.forEach(function (row) {
+                    var fechaServicio = new Date(row.querySelector("td:first-child").textContent);
+
+                    if (fechaServicio < currentDate) {
+                        row.classList.add("table-danger");
+                    }
+                });
+            });
+
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1;
+            var yyyy = today.getFullYear();
+
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+
+            today = yyyy + '-' + mm + '-' + dd;
+            document.getElementById("fecha").setAttribute("min", today);
+
+        </script>
+
+
+
+    </body>
+
+</html>

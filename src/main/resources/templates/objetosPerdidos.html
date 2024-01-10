@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" 
+              integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"/>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900"
+              rel="stylesheet" />
+        <!-- Additional CSS Files -->
+        <link rel="stylesheet" href="css/fontawesome.css"/>
+        <link rel="stylesheet" href="css/templatemo-grad-school.css"/>
+        <link rel="stylesheet" href="css/owl.css"/>
+        <link rel="stylesheet" href="css/lightbox.css"/>
+
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900" rel="stylesheet"/>
+
+        <title>Objetos Perdidos</title>
+        
+        <style>
+            input{
+                margin-top: 20px;
+            }
+        </style>
+        
+    </head>
+
+    <body>
+        <div style="height: 80px; background-color: black;"></div>
+        <header class="main-header clearfix" >
+            <div class="logo">
+                <a href="#"><em>Grad</em> School</a>
+            </div>
+            <a href="#" class="menu-link"><i class="fa fa-bars"></i></a>
+            <nav id="menu" class="main-nav" role="navigation">
+                <ul class="main-menu">
+                    <li><a href="/home">Home</a></li>
+                    <li><a href="https://templatemo.com" class="external">External</a></li>
+                </ul>
+            </nav>
+        </header>
+
+
+        <div class="table-responsive">
+            <table class="table table-light table-striped table-hover"
+                   style="width: 50%; margin-left: 25%;">
+                <thead>
+                    <tr class="success">
+                        <th>Descripcion</th>
+                        <th>Fecha de Perdida</th>
+                        <th>Fecha de Recuperacion</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="objeto : ${lista}">
+                        <td th:text="${objeto.descripcion}"></td>
+                        <td th:text="${objeto.fechaPerdida}"></td>
+                        <td th:text="${objeto.fechaRecuperacion}"></td>
+                        <td>
+                            <a th:href="@{/objetoEditar(codigo=${objeto.idPerdido})}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                                </svg>
+                            </a>
+                        </td>
+                        <td>
+                            <center>
+                                <div th:if="${objeto.fechaRecuperacion == null or objeto.fechaRecuperacion == ''}">
+                                    <a th:href="@{/objetoEncontrado(codigo=${objeto.idPerdido})}">Encontrado</a>
+                                </div>
+                                <div th:unless="${objeto.fechaRecuperacion == null or objeto.fechaRecuperacion == ''}">
+                                    <a th:href="@{/objetoEliminar(codigo=${objeto.idPerdido})}">Si</a>
+                                </div>
+                            </center>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="container">
+            <div class="row d-flex justify-content-center mx-auto">
+                <h1 style="color: white; text-align: center">Datos del objeto a ingresar</h1>
+                <div class="login-form">
+                    <form action="#" th:action="@{/objetoGrabar}" method="post"
+                          th:object="${perdidoBean}">
+                        <div class="form-group">
+                            <input type="text" name="descripcion" class="form-control text-box" 
+                                   placeholder="Descripcion" required="" maxlength="50"
+                                   th:field="*{descripcion}" style="width: 40%;margin-left: 30%"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="date" name="fechaPerdida" class="form-control text-box" 
+                                   required="" th:field="*{fechaPerdida}" style="width: 40%;margin-left: 30%"/>
+                        </div>
+
+                        <center><input type="submit" value="Grabar" class="btn btn-primary button-submit"/></center>
+                    </form>
+                </div> 
+            </div> 
+        </div> 
+        
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p><i class="fa fa-copyright"></i> Copyright 2020 by Grad School | Design: 
+                            <a href="https://templatemo.com" rel="sponsored" target="_parent">TemplateMo</a></p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var rows = document.querySelectorAll("tbody tr");
+
+                rows.forEach(function (row) {
+                    var fechaRecuperacionCell = row.querySelector("td:nth-child(3)"); 
+                    var fechaRecuperacionValue = fechaRecuperacionCell.textContent.trim();
+
+                    if (fechaRecuperacionValue === "") {
+                        row.classList.add("table-dark");
+                    }
+                });
+            });
+        </script>
+        
+    </body>
+
+</html>

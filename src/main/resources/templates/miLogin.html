@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" />
+
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900" rel="stylesheet"/>
+        
+        
+        <style>
+            h1{
+                margin-top: 50px;
+                text-align: center;
+                color: white;
+            }
+            .login-form {
+                width: 340px;
+                margin: 50px auto;
+            }
+            .login-form form {
+                margin-bottom: 15px;
+                background: #f7f7f7;
+                box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+                padding: 30px;
+            }
+            .login-form h2 {
+                margin: 0 0 15px;
+            }
+            .form-control, .btn {
+                min-height: 38px;
+                border-radius: 2px;
+            }
+            .btn {        
+                font-size: 15px;
+                font-weight: bold;
+            }
+            
+            body{
+                background-color: #162238;
+            }
+            
+        </style>
+        
+    <title>Ingreso a la aplicación</title>
+        
+    </head>
+    <body>
+        <h1><em style="color:#F5A425">Grad</em> School</h1>
+        <center><h2 style="color: white">Servicios Institucionales</h2></center>
+        <br/>
+        <div class="login-form">
+            <form th:action="@{/login}" method="post">
+                <div class="form-group">
+                    <input type="text" name="username" required="true" class="form-control" placeholder="Usuario"/>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" required="true" class="form-control" placeholder="Clave"/> <br/>
+                </div>
+                <div class="form-group">
+                    <input type="submit" name="submit" value="Ingresar" class="btn btn-primary btn-block"/>
+                </div>
+            </form>
+        </div>
+        <div class="alert alert-danger" th:if="${error}">
+            <strong>Mal ingreso de las credenciales</strong>
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+        
+    </body>
+</html>

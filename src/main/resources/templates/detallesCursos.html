@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+
+    <head>
+
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <meta name="description" content=""/>
+        <meta name="author" content=""/>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900"
+              rel="stylesheet"/>
+
+        <title>Detalles de Cursos</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" />
+
+        <!-- Additional CSS Files -->
+        <link rel="stylesheet" href="css/templatemo-grad-school.css"/>
+
+        <style>
+            body{
+                background-image: url("images/choosing-bg.jpg");
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .form-group{
+                display: flex;
+                justify-content: space-around;
+                margin-bottom: 10px;
+            }
+
+            footer{
+                margin-top: auto;
+            }
+            
+            .pag-flow{
+                display: flex;
+                justify-content: space-around;
+                width: 30%;
+                margin-left: 35%;
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+
+        <header class="main-header clearfix">
+            <div class="logo">
+                <a href="#"><em>Grad</em> School</a>
+            </div>
+            <a href="#menu" class="menu-link"><i class="fa fa-bars"></i></a>
+            <nav id="menu" class="main-nav" role="navigation">
+                <ul class="main-menu">
+                    <li><a href="/home">Home</a></li>
+                    <li><a href="/cursoListar">Back</a></li>
+                    <li><a href="https://templatemo.com" class="external">External</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div style="margin-top: 80px">
+            <form action="#" th:action="@{/cursosDetalles}" method="post">
+
+                <div class="form-group" style="width: 40%; margin-left: 30%">
+                    <input type="checkbox" value="chkProfe" name="checked" class="form-check-input"/>
+                    <input type="text" name="profesor" class="form-control text-box" 
+                           placeholder="Nombre Profesor" style="width: 90%;"/>
+                </div>
+                <div class="form-group" style="width: 40%; margin-left: 30%">
+                    <input type="checkbox" value="chkModalidad" name="checked" class="form-check-input"/>
+                    <select name="modalidad" class="form-control text-box" style="width: 90%;">
+                        <option value="0">Virtual</option>
+                        <option value="1">Presencial</option>
+                    </select>
+                </div>
+                <div class="form-group" style="width: 40%; margin-left: 30%">
+                    <input type="checkbox" value="chkFacultad" name="checked" class="form-check-input"/>
+                    <select name="facultad" class="form-control text-box" style="width: 90%;">
+                        <option value="0">Numeros</option>
+                        <option value="1">Letras</option>
+                    </select>
+                </div>
+                <div class="form-group" style="width: 40%; margin-left: 30%">
+                    <input type="checkbox" value="chkCiclo" name="checked" class="form-check-input"/>
+                    <input type="number" name="ciclo" class="form-control text-box" 
+                           placeholder="Ciclo" step="1" max="10" min="1" style="width: 90%;"/>
+                </div>
+                <div class="form-group" style="width: 40%; margin-left: 30%">
+                    <input type="checkbox" value="chkCreditos" name="checked" class="form-check-input"/>
+                    <input type="number" name="creditos" class="form-control text-box" 
+                               placeholder="Creditos" step="0.5" max="8" style="width: 90%;"/>
+                </div>
+                <input type="submit" value="Filtrar" class="btn btn-primary button-submit"
+                       style="width: 10%; margin-left: 45%"/>
+            </form>
+        </div>
+        <div class="table-responsive" th:if="${lista!=null}" style="margin-top: 40px">
+            <table class="table table-light table-striped table-hover"
+                   style="width: 60%; margin-left: 20%;">
+                <thead>
+                    <tr class="success">
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th>Profesor</th>
+                        <th>Facultad</th>
+                        <th>Ciclo</th>
+                        <th>Modalidad</th>
+                        <th>Creditos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="curso : ${lista}">
+                        <td th:text="${curso.idcurso}"></td>
+                        <td th:text="${curso.nombre}"></td>
+                        <td th:text="${curso.profesor}"></td>
+                        <td th:text="${curso.facultad}"></td>
+                        <td th:text="${curso.ciclo}"></td>
+                        <td th:text="${curso.modalidad}"></td>
+                        <td th:text="${curso.creditos}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div th:if="${lista!=null}">
+            <p style="color:white; text-align: center">Pagina Actual: <span th:text="${paginaActual}"></span></p>
+            <p style="color:white; text-align: center">Ultima Pagina: <span th:text="${ultimaPagina}"></span></p>
+            <ul class="pag-flow">
+                <li th:if="${paginaActual > 1}">
+                    <a th:href="@{/BuscarPagina(page=${paginaActual - 1})}"
+                       class="btn btn-primary" style="width: 100px">Previous</a>
+                </li>
+                
+                <li th:if="${paginaActual < ultimaPagina}">
+                    <a th:href="@{/BuscarPagina(page=${paginaActual + 1})}"
+                       class="btn btn-primary" style="width: 100px">Next</a>
+                </li>
+            </ul>
+        </div>
+
+
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p><i class="fa fa-copyright"></i> Copyright 2020 by Grad School | Design: 
+                            <a href="https://templatemo.com" rel="sponsored" target="_parent">TemplateMo</a></p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </body>
+
+</html>

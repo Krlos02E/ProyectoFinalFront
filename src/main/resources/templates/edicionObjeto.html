@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" />
+
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900"
+              rel="stylesheet" />
+
+
+        <style>
+            h1 {
+                margin-top: 50px;
+                text-align: center;
+                color: white;
+            }
+
+            .form-control,
+            .btn {
+                min-height: 38px;
+                border-radius: 20px;
+            }
+
+            .btn {
+                font-size: 15px;
+                font-weight: bold;
+            }
+
+            body {
+                background-color: #162238;
+            }
+
+            .contenedor {
+                margin-top: 4%;
+                background-color: #3c4e70;
+                width: 500px;
+                height: 440px;
+                border: solid 5px black;
+                padding: 20px;
+            }
+
+            form{
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+            }
+
+            input {
+                text-align: center;
+
+            }
+
+            input[type=date] {
+                text-align: center;
+                width: 40%;
+            }
+
+            .botones{
+                display: flex;
+                flex-direction: column;
+                width: 100px;
+            }
+        </style>
+
+        <title>Edicion de Objetos</title>
+
+    </head>
+
+    <body>
+
+        <div>
+            <h1>Edicion de Objeto Perdido</h1>
+        </div>
+
+        <center>
+            <div class="contenedor">
+                <form action="objetoEditado" th:object="${perdidoBean}">
+                    <input hidden="" th:value="*{idPerdido}" th:field="*{idPerdido}"/>
+                    <label for="desc" style="color:white; font-weight: bold;">Descripcion del Objeto</label>
+                    <input type="text" class="form-control text-box" id="desc" required="" maxlength="50"
+                           th:value="*{descripcion}" th:field="*{descripcion}"/>
+                    <br/>
+                    
+                    <label for="fechaPerdida" style="color:white; font-weight: bold;">Fecha de Perdida</label>
+                    <center><input type="date" class="form-control text-box" required="" id="fechaPerdida" 
+                                   th:value="*{fechaPerdida}" th:field="*{fechaPerdida}"/></center>
+                    <br/>
+                    
+                    <label for="fechaRecuperacion" style="color:white; font-weight: bold;">Fecha de Recuperacion</label>
+                    <center><input type="date" class="form-control text-box" id="fechaRecuperacion" 
+                                   th:value="@{fechaRecuperacion == null ? '' : *{fechaRecuperacion}}"
+                                   name="recuperacion"/></center>
+                    
+                    <center><div class="botones">
+                            <input type="submit" class="btn btn-danger" style="margin-top: 40px;"/>
+                            <br/>
+                            <a href="/objetoListar" class="btn btn-primary">Cancelar</a>
+                        </div></center>
+                </form>
+            </div>
+        </center>
+
+        <script>
+            document.querySelector("#fechaRecuperacion").addEventListener("change", function () {
+                if (this.value === "") {
+                    this.value = null;
+                }
+            });
+        </script>
+
+    </body>
+
+</html>

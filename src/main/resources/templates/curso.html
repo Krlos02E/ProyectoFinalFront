@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <title>Cursos Disponibles</title>
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" />
+
+        <!-- Additional CSS Files -->
+        <link rel="stylesheet" href="css/fontawesome.css"/>
+        <link rel="stylesheet" href="css/templatemo-grad-school.css"/>
+        <link rel="stylesheet" href="css/owl.css"/>
+        <link rel="stylesheet" href="css/lightbox.css"/>
+
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900" rel="stylesheet"/>
+
+    </head>
+    <body>
+        <div style="height: 80px; background-color: black;"></div>
+
+        <header class="main-header clearfix" >
+            <div class="logo">
+                <a href="#"><em>Grad</em> School</a>
+            </div>
+            <a href="#" class="menu-link"><i class="fa fa-bars"></i></a>
+            <nav id="menu" class="main-nav" role="navigation">
+                <ul class="main-menu">
+                    <li><a href="/home">Home</a></li>
+                    <li><a href="/cursosDetalles">Busqueda</a></li>
+                    <li><a href="https://templatemo.com" class="external">External</a></li>
+                </ul>
+            </nav>
+        </header>
+
+
+        <h1 style="color: white; text-align: center">Cursos Disponibles</h1>
+        <br/>
+        <div class="table-responsive">
+            <table class="table table-light table-striped table-hover"
+                   style="width: 70%; margin-left: 15%;">
+                <thead>
+                    <tr class="success">
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th>Profesor</th>
+                        <th>Facultad</th>
+                        <th>Ciclo</th>
+                        <th>Modalidad</th>
+                        <th>Creditos</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="curso : ${lista}">
+                        <td th:text="${curso.idcurso}"></td>
+                        <td th:text="${curso.nombre}"></td>
+                        <td th:text="${curso.profesor}"></td>
+                        <td th:text="${curso.facultad}"></td>
+                        <td th:text="${curso.ciclo}"></td>
+                        <td th:text="${curso.modalidad}"></td>
+                        <td th:text="${curso.creditos}"></td>
+                        <td>
+                            <a th:href="@{/cursoEditar(codigo=${curso.idcurso})}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                                </svg>
+                            </a>
+                        </td>
+                        <td>
+                            <a th:href="@{|cursoEliminar?codigo=| + ${curso.idcurso}}" th:text="|SI|"/>
+                        </td> 
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <br/>
+        <hr/>
+        <div class="container">
+            <div class="row d-flex justify-content-center mx-auto">
+                <br/>
+                <div class="login-form">
+                    <h1 style="color: white; text-align: center">Datos del curso a ingresar</h1>
+
+
+                    <form action="#" th:action="@{/cursoGrabar}" method="post"
+                          th:object="${cursoBean}">
+                        <div class="form-group">
+                            <input type="text" name="nomCurso" class="form-control text-box" 
+                                   placeholder="Nombre Curso" required=""
+                                   th:field="*{nombre}"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="profesor" class="form-control text-box" 
+                                   placeholder="Nombre Profesor" required=""
+                                   th:field="*{profesor}"/>
+                        </div>
+                        <div class="form-group">
+                            <select name="modalidad" class="form-control text-box" required=""
+                                    th:field="*{modalidad}">
+                                <option value="" disabled="" selected="">Modalidad</option>
+                                <option value="0">Virtual</option>
+                                <option value="1">Presencial</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select name="facultad" class="form-control text-box" required=""
+                                    th:field="*{facultad}">
+                                <option value="" disabled="" selected="">Facultad</option>
+                                <option value="0">Numeros</option>
+                                <option value="1">Letras</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="number" name="ciclo" class="form-control text-box" 
+                                   placeholder="Ciclo" step="1" max="10" min="1" 
+                                   th:field="*{ciclo}"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="number" name="creditos" class="form-control text-box" 
+                                   placeholder="Creditos" step="0.5" max="8" required=""
+                                   th:field="*{creditos}"/>
+                        </div>
+                        <center><input type="submit" value="Grabar" class="btn btn-primary button-submit"/></center>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p><i class="fa fa-copyright"></i> Copyright 2020 by Grad School | Design: 
+                            <a href="https://templatemo.com" rel="sponsored" target="_parent">TemplateMo</a></p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+        <script src="js/isotope.min.js"></script>
+        <script src="js/owl-carousel.js"></script>
+        <script src="js/lightbox.js"></script>
+        <script src="js/tabs.js"></script>
+        <script src="js/video.js"></script>
+        <script src="js/slick-slider.js"></script>
+        <script src="js/custom.js"></script>
+
+
+    </body>
+</html>
